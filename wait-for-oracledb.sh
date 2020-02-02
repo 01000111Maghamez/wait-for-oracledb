@@ -39,7 +39,7 @@ function wait_for_instance_open_status() {
     sleep "${POLL_INTERVAL}"
     INSTANCE_STATUS=$(get_instance_status)
   done
-  "${COMPLETION_COMMAND}" "${COMPLETION_COMMAND_ARGS}"
+  exec "${COMPLETION_COMMAND}" "${COMPLETION_COMMAND_ARGS}"
 }
 
 function get_option_value() {

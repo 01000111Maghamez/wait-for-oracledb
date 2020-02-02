@@ -1,0 +1,31 @@
+version: "3.7"
+services: 
+  app:
+    build: .
+    depends_on:
+      - oracledb
+    volumes:
+      - ${PWD}/../../wait-for-oracledb.sh:/app/wait-for-oracledb.sh
+    networks:
+      - network
+    container_name: basic-application
+    environment: 
+      - DB_HOST=basic-application-oracledb
+    entrypoint:
+      - 'bash'
+      - '/app/wait-for-oracledb.sh'
+      - '-h'
+      - 'basic-application-oracledb'
+      - 'bash'
+      - '/app/startup.sh'
+  oracledb:
+    container_name: basic-application-oracledb
+    image: store/oracle/database-enterprise:12.2.0.1
+    volumes:
+      - db_data:/ORCL
+    networks:
+      - network
+volumes:
+  db_data:
+networks: 
+  network:
